@@ -20,10 +20,16 @@ And then execute:
 
 
 ## Usage
+## Usage
 ```ruby
-# Capfile
-require 'capistrano/sidekiq'
-require 'capistrano/sidekiq/monit' #to require monit tasks # Only for capistrano3
+    # Capfile
+
+    require 'capistrano/sidekiq'
+    install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
+    # Then select your service manager
+    install_plugin Capistrano::Sidekiq::Systemd 
+    # or  
+    install_plugin Capistrano::Sidekiq::Upstart
 ```
 
 

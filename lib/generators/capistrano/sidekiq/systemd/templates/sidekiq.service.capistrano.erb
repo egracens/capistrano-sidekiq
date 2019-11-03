@@ -4,11 +4,11 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
-Environment=RAILS_ENV=<%= fetch(:rails_env) %>
-WorkingDirectory=<%= fetch(:deploy_to) %>/current
-ExecStart=<%= fetch(:bundler_path, '/usr/local/bin/bundler') %> exec sidekiq -e <%= fetch(:rails_env) %>
+WorkingDirectory=<%= File.join(fetch(:deploy_to), 'current') %>
+ExecStart=<%= SSHKit.config.command_map[:bundler] %> exec sidekiq -e <%= fetch(:sidekiq_env) %>
 ExecReload=/bin/kill -TSTP $MAINPID
-ExecStop=/bin/kill -TERM $MAINPID
+ExecStop=/bin/kill -TERM
+User=<%= sidekiq_user(role) %>
 
 RestartSec=1
 Restart=on-failure
